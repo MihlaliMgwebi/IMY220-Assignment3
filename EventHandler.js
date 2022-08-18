@@ -86,7 +86,7 @@ function EventHandler(arrayOfObjects){
     this.getUniqueDateAndSort = function(){
         var answer = arrayOfObjects.reduce((previousEvent,nextEvent) => {
             if (typeof previousEvent !== 'object'){
-                console.log(typeof previousEvent); 
+                //console.log(typeof previousEvent); 
                 if (arrayOfObjects.find(element => element.dateStart == nextEvent.dateStart && element.dateEnd == nextEvent.dateEnd && element.name != nextEvent.name)){
                         return previousEvent + nextEvent;
                 }
@@ -144,7 +144,9 @@ arrayOfObjects = [
 var newArrayOfObjects = new EventHandler(arrayOfObjects);
 // newArrayOfObjects.getEventsBetweenDates("2022/02/01", "2022/02/16");
 // newArrayOfObjects.getByMonth(05);
-console.log(newArrayOfObjects.getUniqueDateAndSort());
+var uniqueArrayOfObjects = newArrayOfObjects.getUniqueDateAndSort();
+console.log(uniqueArrayOfObjects);
+
 
 
 //getSummary:
