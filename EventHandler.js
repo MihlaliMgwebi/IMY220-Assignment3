@@ -40,60 +40,19 @@ function EventHandler(arrayOfObjects){
         console.log(eventsByMonth);
         console.log(" ");
     }
-
-    // this.getUniqueDateAndSort = function(){
-    //     // Double check understanding 
-    //     console.log("getUniqueDateAndSort:");
-    //     var eventsByUniqueDateAndSort = [];
-    //     // eventsByUniqueDateAndSort = arrayOfObjects.reduce((previousValue, currentValue) => {
-    //     // //     console.log(reducedArray)
-    //     // //     var x = reducedArray.find(item => ((item.dateStart === current.dateStart) || (item.dateEnd === current.dateEnd)));
-    //     // //     if (!x) {
-    //     // //         reducedArray.concat([current]);
-    //     // //         return ;
-    //     // //     } else {
-    //     // //         return reducedArray;
-    //     //     // }
-    //     // }, []);
-
-    //     // const names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice'];
-    //     // const countedNames = names.reduce((allNames, name) => {
-    //     //     console.log("names: " + allNames[name]);
-    //     //     allNames[name] ??= 0;
-    //     //     // //allNames[name]++;
-    //     //     // Remember to return the object, or the next iteration
-    //     //     // will receive undefined
-    //     //     return allNames;
-    //     // }, {});
-    //     // countedNames is:
-    //     // { 'Alice': 2, 'Bob': 1, 'Tiff': 1, 'Bruce': 1 }
-
-    //     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce#remove_duplicate_items_in_an_array
-    //     const myArray = ['a', 'b', 'a', 'b', 'c', 'e', 'e', 'c', 'd', 'd', 'd', 'd'];
-    //     // const myArrayWithNoDuplicates = myArray.reduce((previousValue, currentValue) => {
-    //     //     if (previousValue.indexOf(currentValue) === -1) {
-    //     //         previousValue.push(currentValue);
-    //     //     }
-    //     //     return previousValue;
-    //     // }, []);
-    //     // console.log(myArrayWithNoDuplicates);
-
-    //     eventsByUniqueDateAndSort.sort();
-    //     eventsByUniqueDateAndSort.reverse();
-    //     return eventsByUniqueDateAndSort;
-    // }
   
     this.getUniqueDateAndSort = function(){
-        var answer = arrayOfObjects.reduce((previousEvent,nextEvent) => {
-            if (typeof previousEvent !== 'object'){
-                //console.log(typeof previousEvent); 
-                if (arrayOfObjects.find(element => element.dateStart == nextEvent.dateStart && element.dateEnd == nextEvent.dateEnd && element.name != nextEvent.name)){
-                        return previousEvent + nextEvent;
-                }
+        const filteredArr = arrayOfObjects.reduce((acc, current) => {
+            const x = acc.find(item => ( (item.dateStart === current.dateStart) && (item.dateEnd === current.dateEnd)));
+            if (!x) {
+              return acc.concat([current]);
+            } else {
+              return acc;
             }
-        });
-        return answer;
+          }, []);
+        console.log(filteredArr);
     }
+    
     
     this.getSummary = function(optionalParameter){ //optionalParameter
         //contants? Concatenating return values? Cleaner code.
@@ -138,7 +97,8 @@ arrayOfObjects = [
     {name: 'Market', description: "Farmer's market day long event", dateStart: '2022/06/12', dateEnd: '2022/06/12'},
     {name: 'Science Expo', description: 'Science expo with sciency stuff', dateStart: '2022/06/12', dateEnd: '2022/06/21'},
     {name: 'Hiking trip', description: 'Hiking trip with a bunch of University friends', dateStart: '2022/02/14', dateEnd: '2022/02/16'},
-    {name: 'Park Picnic', description: 'Picnic event in the park', dateStart: '2022/06/12', dateEnd: '2022/06/12'}
+    {name: 'Park Picnic', description: 'Picnic event in the park', dateStart: '2022/06/12', dateEnd: '2022/06/12'},
+    {name: 'Market', description: 'Picnic event in the park', dateStart: '2022/06/12', dateEnd: '2022/06/12'}
 ]
 
 var newArrayOfObjects = new EventHandler(arrayOfObjects);
