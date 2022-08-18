@@ -56,12 +56,32 @@ function EventHandler(arrayOfObjects){
         console.log(" ");
     }
 
-    this.getSummary = function(){
-        alert("getSummary");
+    this.getSummary = function(optionalParameter){ //optionalParameter
+        //object  //if object or if array
+        //if same date
+        //if diff dates
+        console.log("getSummary:");
+        var arrayOfStrings = []; //return value
+        var eventsSummary = (optionalParameter === undefined) ? this.arrayOfObjects : optionalParameter;
+       
+        const result = Array.isArray(eventsSummary); // object or array?
+
+        if(result) {//Array
+            console.log(`[${eventsSummary}] is an array.`);
+        }
+        else {//Object
+            var parsedDateStart = Date.parse(eventsSummary.dateStart);
+            var parsedDateEnd = Date.parse(eventsSummary.dateEnd);
+            if (parsedDateStart ==  parsedDateEnd){//if same day
+                    arrayOfStrings.push("On ")
+            }   
+        }
+        return arrayOfStrings;
     }
 }
 
 // TESTING 
+// Ask about test cases
 arrayOfObjects = [
     {name: 'University expo', description: 'Expo to showcase University degrees', dateStart: '2022/02/01', dateEnd: '2022/02/14'},
     {name: 'Duplicate University expo', description: 'Expo to showcase University degrees', dateStart: '2022/02/01', dateEnd: '2022/02/14'},
@@ -72,4 +92,5 @@ var newArrayOfObjects = new EventHandler(arrayOfObjects);
 // newArrayOfObjects.getEventsBetweenDates("2022/02/01", "2022/02/16");
 // newArrayOfObjects.getByMonth(05);
 // newArrayOfObjects.getByiqueDateAndSort();
-newArrayOfObjects.getSummary();
+//console.log(newArrayOfObjects.getSummary());
+console.log(newArrayOfObjects.getSummary({name: 'Pizza party', description: "Pizza party at work", dateStart: '2022/07/10', dateEnd: '2022/07/10'}));
