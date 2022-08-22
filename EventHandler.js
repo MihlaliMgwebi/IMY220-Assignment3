@@ -46,37 +46,36 @@ function EventHandler(arrayOfObjects) {
        return this.arrayOfObjects;
     }
     
-    
-    this.getSummary = function(optionalParameter){ //optionalParameter
+    this.getSummary = function(optionalParameter){ 
         console.log("getSummary:");
+        var arrayOfStrings = []; //return value
         this.arrayOfObjects = (optionalParameter === undefined) ? this.arrayOfObjects : optionalParameter;
-        var eventSummary = [];
-        // var result = Array.isArray(this.arrayOfObjects); // object or array?
+        var result = Array.isArray(this.arrayOfObjects); // object or array?
 
-        // if(result) {//Array of Objects
-        var temp = this.arrayOfObjects.filter(function(object){//filter through each object
+        if(result) {//Array of Objects
+            var arrayOfStrings = this.arrayOfObjects.map(function(object){//filter through each object
                 var parsedDateStart = Date.parse(object.dateStart);
                 var parsedDateEnd = Date.parse(object.dateEnd);
-                
-                if (parsedDateEnd == parsedDateStart){ //if same day, On [dateStart]: [name] ( [description] )
-                    eventSummary.push("On " + this.arrayOfObjects.dateStart + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )");
+    
+                if (parsedDateStart == parsedDateEnd){ //if same day, On [dateStart]: [name] ( [description] )
+                    return ("On " + object.dateStart + ": " + object.name + " ( " + object.description + " )");
                 } else { //range of days, From [dateStart] to [dateEnd]: [name] ( [description] )
-                    return("From " + this.arrayOfObjects.dateStart + " to " + this.arrayOfObjects.dateEnd + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )");
+                    return ("From " + object.dateStart + " to " + object.dateEnd + ": " + object.name + " ( " + object.description + " )");
                 }
             });
-        // }
-        // else {//Single Object 
-        //     var parsedDateStart = Date.parse(this.arrayOfObjects.dateStart);
-        //     var parsedDateEnd = Date.parse(this.arrayOfObjects.dateEnd);
-        //     if (parsedDateStart ==  parsedDateEnd){//if same day, On [dateStart]: [name] ( [description] )
-        //         return("On " + this.arrayOfObjects.dateStart + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )");
-        //     } else { //range of days, From [dateStart] to [dateEnd]: [name] ( [description] )
-        //         return ("From " + this.arrayOfObjects.dateStart + " to " + this.arrayOfObjects.dateEnd + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )");
-        //     }
-        // }
-        console.log(eventSummary);
-        return temp;
+        }
+        else {//Single Object 
+            var parsedDateStart = Date.parse(this.arrayOfObjects.dateStart);
+            var parsedDateEnd = Date.parse(this.arrayOfObjects.dateEnd);
+            if (parsedDateStart ==  parsedDateEnd){//if same day, On [dateStart]: [name] ( [description] )
+                this.arrayOfObjects = "On " + this.arrayOfObjects.dateStart + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )";
+            } else { //range of days, From [dateStart] to [dateEnd]: [name] ( [description] )
+                this.arrayOfObjects = "From " + this.arrayOfObjects.dateStart + " to " + this.arrayOfObjects.dateEnd + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )";
+            }
+        }
+        return arrayOfStrings;
     }
+   
 }
 
 // PROTOTYPE CHAINING & HANDLER
