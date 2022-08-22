@@ -24,8 +24,7 @@ function EventHandler(arrayOfObjects){
                 return object;
             }
         });
-        console.log(eventsBetweenDates);
-        console.log(" ");
+        return eventsBetweenDates;
     }
 
     this.getByMonth = function(month){
@@ -37,28 +36,24 @@ function EventHandler(arrayOfObjects){
                 return object;
             }   
         });
-        console.log(eventsByMonth);
-        console.log(" ");
+        return eventsByMonth;
     }
   
     this.getUniqueDateAndSort = function(){
-        const filteredArr = arrayOfObjects.reduce((acc, current) => {
-            const x = acc.find(item => ( (item.dateStart === current.dateStart) && (item.dateEnd === current.dateEnd)));
+        console.log("getUniqueDateAndSort:");
+        var uniqueEvents = arrayOfObjects.reduce((acc, current) => {
+            const x = acc.find(element => ( (element.dateStart === current.dateStart) && (element.dateEnd === current.dateEnd)));
             if (!x) {
               return acc.concat([current]);
             } else {
               return acc;
             }
           }, []);
-        console.log(filteredArr);
+       return uniqueEvents;
     }
     
     
     this.getSummary = function(optionalParameter){ //optionalParameter
-        //contants? Concatenating return values? Cleaner code.
-        //How to check if array of strings
-        //object  //if object or if array
-        // functions to avoid redundancy?
         console.log("getSummary:");
         var arrayOfStrings = []; //return value
         var eventsSummary = (optionalParameter === undefined) ? this.arrayOfObjects : optionalParameter;
@@ -69,7 +64,7 @@ function EventHandler(arrayOfObjects){
                 var parsedDateStart = Date.parse(object.dateStart);
                 var parsedDateEnd = Date.parse(object.dateEnd);
     
-                if (parsedDateEnd == parsedEnd){ //if same day, On [dateStart]: [name] ( [description] )
+                if (parsedDateEnd == parsedDateStart){ //if same day, On [dateStart]: [name] ( [description] )
                     return ("On " + eventsSummary.dateStart + ": " + eventsSummary.name + " ( " + eventsSummary.description + " )");
                 } else { //range of days, From [dateStart] to [dateEnd]: [name] ( [description] )
                     return ("From " + eventsSummary.dateStart + " to " + eventsSummary.dateEnd + ": " + eventsSummary.name + " ( " + eventsSummary.description + " )");
@@ -89,8 +84,7 @@ function EventHandler(arrayOfObjects){
     }
 }
 
-// TESTING 
-// Ask about test cases
+// HANDLER 
 arrayOfObjects = [
     {name: 'University expo', description: 'Expo to showcase University degrees', dateStart: '2022/02/01', dateEnd: '2022/02/14'},
     {name: 'Music festival', description: 'Weekend long music festival with a ton of artists performing', dateStart: '2022/05/13', dateEnd: '2022/05/15'},
@@ -102,15 +96,39 @@ arrayOfObjects = [
 ]
 
 var newArrayOfObjects = new EventHandler(arrayOfObjects);
+
 // newArrayOfObjects.getEventsBetweenDates("2022/02/01", "2022/02/16");
 // newArrayOfObjects.getByMonth(05);
-var uniqueArrayOfObjects = newArrayOfObjects.getUniqueDateAndSort();
-console.log(uniqueArrayOfObjects);
 
+// console.log(newArrayOfObjects.getUniqueDateAndSort());
 
-
-//getSummary:
 // console.log(newArrayOfObjects.getSummary());
-//console.log(newArrayOfObjects.getSummary({name: 'Market', description: "Farmer's market day long event", dateStart: '2022/06/12', dateEnd: '2022/06/12'}));
-//console.log(newArrayOfObjects.getSummary({name: 'University expo', description: 'Expo to showcase University degrees', dateStart: '2022/02/01', dateEnd: '2022/02/14'}));
-//console.log(newArrayOfObjects.getSummary({name: 'Pizza party', description: "Pizza party at work", dateStart: '2022/07/10', dateEnd: '2022/07/10'}));
+// console.log(newArrayOfObjects.getSummary({name: 'Market', description: "Farmer's market day long event", dateStart: '2022/06/12', dateEnd: '2022/06/12'}));
+// console.log(newArrayOfObjects.getSummary({name: 'University expo', description: 'Expo to showcase University degrees', dateStart: '2022/02/01', dateEnd: '2022/02/14'}));
+// console.log(newArrayOfObjects.getSummary({name: 'Pizza party', description: "Pizza party at work", dateStart: '2022/07/10', dateEnd: '2022/07/10'}));
+
+//console.log(Object.getPrototypeOf(newArrayOfObjects)); // this is null. The prototype property only exists on functions, and newArrayOfObjects is not a function. It's an object. However, a constructor is a function. Constructor is the main function that takes the parameters necessary to build new instances of your object.  //https://stackoverflow.com/questions/14545210/why-prototype-is-undefined
+
+
+//BROKEN
+Object.setPrototypeOf(
+        newArrayOfObjects.getByMonth(06).prototype,
+        newArrayOfObjects.getSummary().prototype,
+    );
+//newArrayOfObjects.prototype.getEventsBetweenDates = (start,end) => getEventsBetweenDates(start,end);
+// newArrayOfObjects.prototype = new EventHandler(arrayOfObjects);
+// newArrayOfObjects.prototype.getByMonth = function(month) {
+//     return getByMonth(month);
+// }
+// newArrayOfObjects.prototype.getSummary = function(optionalParameter) {
+//     return getSummary(optionalParameter);
+// }
+
+// Object.setPrototypeOf(
+//     newArrayOfObjects.getByMonth(06).prototype, 
+//     newArrayOfObjects.getSummary(optionalParameter).prototype
+// );
+console.log(newArrayOfObjects.getByMonth(06).getSummary());
+
+// w3schools array protoptype
+// JS best practices
