@@ -95,7 +95,7 @@ Array.prototype.getEventsBetweenDates = function(start, end){
 }
 
 Array.prototype.getByMonth = function(month){
-    return new EventHandler(this).getByMonth(06);
+    return new EventHandler(this).getByMonth(month);
 }
 
 Array.prototype.getUniqueDateAndSort = function(){
