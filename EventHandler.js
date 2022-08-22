@@ -5,7 +5,7 @@ function EventHandler(arrayOfObjects) {
 
     // member functions
     this.getEventsBetweenDates = function(start, end){
-        console.log("getEventsBetweenDates:");
+        console.log("getEventsBetweenDates: " + start + " and " + end);
         this.arrayOfObjects  = arrayOfObjects.filter(function(object){
             var parsedStart = Date.parse(start);
             var parsedEnd = Date.parse(end);
@@ -21,7 +21,7 @@ function EventHandler(arrayOfObjects) {
     }
 
     this.getByMonth = function(month){
-        console.log("getByMonth:");
+        console.log("getByMonth: " + month);
         this.arrayOfObjects = arrayOfObjects.filter(function(object){
             var dateStart =  new Date(object.dateStart);
             var objectMonth = dateStart.getMonth() + 1;
@@ -48,7 +48,6 @@ function EventHandler(arrayOfObjects) {
     
     this.getSummary = function(optionalParameter){ 
         console.log("getSummary:");
-        var arrayOfStrings = []; //return value
         this.arrayOfObjects = (optionalParameter === undefined) ? this.arrayOfObjects : optionalParameter;
         var result = Array.isArray(this.arrayOfObjects); // object or array?
 
@@ -67,15 +66,15 @@ function EventHandler(arrayOfObjects) {
         else {//Single Object 
             var parsedDateStart = Date.parse(this.arrayOfObjects.dateStart);
             var parsedDateEnd = Date.parse(this.arrayOfObjects.dateEnd);
-            if (parsedDateStart ==  parsedDateEnd){//if same day, On [dateStart]: [name] ( [description] )
-                this.arrayOfObjects = "On " + this.arrayOfObjects.dateStart + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )";
-            } else { //range of days, From [dateStart] to [dateEnd]: [name] ( [description] )
-                this.arrayOfObjects = "From " + this.arrayOfObjects.dateStart + " to " + this.arrayOfObjects.dateEnd + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )";
-            }
+           
+            var arrayOfStrings =  (parsedDateStart ==  parsedDateEnd) 
+            ?  //if same day, On [dateStart]: [name] ( [description] )
+            "On " + this.arrayOfObjects.dateStart + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )"
+            : //else range of days, From [dateStart] to [dateEnd]: [name] ( [description] )
+            "From " + this.arrayOfObjects.dateStart + " to " + this.arrayOfObjects.dateEnd + ": " + this.arrayOfObjects.name + " ( " + this.arrayOfObjects.description + " )";
         }
-        return arrayOfStrings;
+    return arrayOfStrings;
     }
-   
 }
 
 // PROTOTYPE CHAINING & HANDLER
@@ -91,28 +90,36 @@ arrayOfObjects = [
 
 var newArrayOfObjects = new EventHandler(arrayOfObjects);
 
-// Array.prototype.getByMonth = function(month){
-//     return new EventHandler(arrayOfObjects).getByMonth(06);
-// }
+Array.prototype.getEventsBetweenDates = function(start, end){
+    return new EventHandler(this).getEventsBetweenDates(start, end);
+}
 
-// Array.prototype.getSummary = function(optionalParameter){
-//     return new EventHandler(arrayOfObjects).getSummary(optionalParameter);
-// }
+Array.prototype.getByMonth = function(month){
+    return new EventHandler(this).getByMonth(06);
+}
+
+Array.prototype.getUniqueDateAndSort = function(){
+    return new EventHandler(this).getUniqueDateAndSort();
+}
+
+Array.prototype.getSummary = function(optionalParameter){
+    return new EventHandler(this).getSummary(optionalParameter);
+}
 
 // HANDLER 
 
-// console.log(newArrayOfObjects.getEventsBetweenDates("2022/02/01", "2022/02/16"));
+console.log(newArrayOfObjects.getEventsBetweenDates("2022/02/01", "2022/02/16"));
 
-// console.log(newArrayOfObjects.getByMonth(06));
+console.log(newArrayOfObjects.getByMonth(06));
 
-// console.log(newArrayOfObjects.getUniqueDateAndSort());
+console.log(newArrayOfObjects.getUniqueDateAndSort());
 
 console.log(newArrayOfObjects.getSummary());
-// console.log(newArrayOfObjects.getSummary({name: 'Market', description: "Farmer's market day long event", dateStart: '2022/06/12', dateEnd: '2022/06/12'}));
-// console.log(newArrayOfObjects.getSummary({name: 'University expo', description: 'Expo to showcase University degrees', dateStart: '2022/02/01', dateEnd: '2022/02/14'}));
-// console.log(newArrayOfObjects.getSummary({name: 'Pizza party', description: "Pizza party at work", dateStart: '2022/07/10', dateEnd: '2022/07/10'}));
+console.log(newArrayOfObjects.getSummary({name: 'Market', description: "Farmer's market day long event", dateStart: '2022/06/12', dateEnd: '2022/06/12'}));
+console.log(newArrayOfObjects.getSummary({name: 'University expo', description: 'Expo to showcase University degrees', dateStart: '2022/02/01', dateEnd: '2022/02/14'}));
+console.log(newArrayOfObjects.getSummary({name: 'Pizza party', description: "Pizza party at work", dateStart: '2022/07/10', dateEnd: '2022/07/10'}));
 
-// console.log(newArrayOfObjects.getByMonth(06).getSummary());
+console.log(newArrayOfObjects.getByMonth(06).getSummary());
 
 // w3schools array protoptype
 // JS best practices
