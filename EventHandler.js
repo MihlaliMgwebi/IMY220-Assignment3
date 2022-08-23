@@ -5,7 +5,7 @@ function EventHandler(arrayOfObjects) {
 
     // member functions
     this.getEventsBetweenDates = function(start, end){
-        console.log("getEventsBetweenDates: " + start + " and " + end);
+        //console.log("getEventsBetweenDates: " + start + " and " + end);
         this.arrayOfObjects  = arrayOfObjects.filter(function(object){
             var parsedStart = Date.parse(start);
             var parsedEnd = Date.parse(end);
@@ -21,7 +21,7 @@ function EventHandler(arrayOfObjects) {
     }
 
     this.getByMonth = function(month){
-        console.log("getByMonth: " + month);
+        //console.log("getByMonth: " + month);
         this.arrayOfObjects = arrayOfObjects.filter(function(object){
             var dateStart =  new Date(object.dateStart);
             var objectMonth = dateStart.getMonth() + 1;
@@ -34,7 +34,7 @@ function EventHandler(arrayOfObjects) {
     }
   
     this.getUniqueDateAndSort = function(){
-        console.log("getUniqueDateAndSort:");
+        //console.log("getUniqueDateAndSort:");
         this.arrayOfObjects = arrayOfObjects.reduce((acc, current) => {
             const x = acc.find(element => ( (element.dateStart === current.dateStart) && (element.dateEnd === current.dateEnd)));
             if (!x) {
@@ -47,7 +47,7 @@ function EventHandler(arrayOfObjects) {
     }
     
     this.getSummary = function(optionalParameter){ 
-        console.log("getSummary:");
+        //console.log("getSummary:");
         this.arrayOfObjects = (optionalParameter === undefined) ? this.arrayOfObjects : optionalParameter;
         var result = Array.isArray(this.arrayOfObjects); // object or array?
 
