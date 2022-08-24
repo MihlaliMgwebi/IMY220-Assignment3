@@ -88,7 +88,7 @@ arrayOfObjects = [
     {name: 'Market', description: 'Picnic event in the park', dateStart: '2022/06/12', dateEnd: '2022/06/12'}
 ]
 
-var newArrayOfObjects = new EventHandler(arrayOfObjects);
+var newArrayOfObjects = new EventHandler(events);
 
 Array.prototype.getEventsBetweenDates = function(start, end){
     return new EventHandler(this).getEventsBetweenDates(start, end);
